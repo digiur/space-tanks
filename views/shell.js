@@ -64,15 +64,15 @@ class Shell {
     let drawY = this.pos.y;
 
     // Todo: Constrain instead
-    if (drawX < 0)
-      drawX = 0;
-    else if (drawX > gameWidth)
-      drawX = gameWidth;
+    if (drawX < 1)
+      drawX = 1;
+    else if (drawX > gameWidth-1)
+      drawX = gameWidth-1;
 
-    if (drawY < 0)
-      drawY = 0;
-    else if (drawY > gameHeight)
-      drawY = gameHeight;
+    if (drawY < 1)
+      drawY = 1;
+    else if (drawY > gameHeight-1)
+      drawY = gameHeight-1;
 
     // Draw body
     fill("White");
