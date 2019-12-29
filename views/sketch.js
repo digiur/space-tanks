@@ -52,7 +52,7 @@ function setup() {
   revealedTime = 100;
   timeSinceRevealed = 0;
   playerSize = 5;
-  playerLife = 1000;
+  playerLife = 2000;
 
   // On the eighth day the gods created the canvas
   createCanvas(gameWidth, gameHeight);
