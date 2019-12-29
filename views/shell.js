@@ -63,18 +63,19 @@ class Shell {
     let drawX = this.pos.x;
     let drawY = this.pos.y;
 
+    // Todo: Constrain instead
     if (drawX < 0)
       drawX = 0;
-    else if (drawX > windowWidth)
-      drawX = windowWidth;
+    else if (drawX > gameWidth)
+      drawX = gameWidth;
 
     if (drawY < 0)
       drawY = 0;
-    else if (drawY > windowHeight)
-      drawY = windowHeight;
+    else if (drawY > gameHeight)
+      drawY = gameHeight;
 
     // Draw body
-    fill(color("white"));
+    fill("White");
     circle(drawX, drawY, this.size);
 
     // Draw hint lines

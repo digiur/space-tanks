@@ -1,21 +1,19 @@
 class Trail {
 
-  constructor(x, y, size, life, myColor) {
+  constructor(x, y, size, life) {
     this.pos = createVector(x, y);
     this.size = size;
     this.life = life;
-    this.startColor = myColor;
-    this.endColor = color(0, 0, 0);
-    this.color = myColor;
     this.age = 0;
     this.dead = false;
+    this.color = color(0, 100, 50);
   }
 
   update() {
     // The life of a trail
     this.age += deltaTime;
     if (this.age < this.life) {
-      this.color = lerpColor(this.startColor, this.endColor, this.age / this.life);
+      this.color = color(this.age / this.life * 100, 100, 50);
     } else {
       this.dead = true;
     }

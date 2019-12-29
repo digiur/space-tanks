@@ -1,21 +1,31 @@
 {
-  "name": "p5-js",
+  "name": "space-tanks",
   "version": "0.0.1",
-  "description": "p5.js Demo",
+  "description": "SPACE TANKS!",
   "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "dependencies": {
-    "express": "^4.14.0",
-    "p5": "*"
-  },
-  "engines": {
-    "node": "6.9.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digiur/space-tanks.git"
   },
   "keywords": [
-    "node",
-    "express"
+    "space",
+    "tanks"
   ],
-  "license":"LGPL-2.1"
+  "author": "digiur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digiur/space-tanks/issues"
+  },
+  "homepage": "https://github.com/digiur/space-tanks#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "io": "^1.0.0",
+    "p5": "^0.10.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  }
 }

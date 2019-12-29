@@ -1,10 +1,10 @@
 // Planets are pretty dumb
 class Planet {
 
-  constructor(minX, minY, maxX, maxY, minSize, maxSize) {
-    this.pos = createVector(random(minX, maxX), random(minY, maxY));
-    this.size = random(minSize, maxSize);
-    this.color = color(random(0, 255), random(0, 255), random(0, 255));
+  constructor(x, y, size) {
+    this.pos = createVector(x, y);
+    this.size = size;
+    this.color = color(random(0, 100), random(0, 100), random(25, 75));
   }
 
   update() {

@@ -11,6 +11,15 @@ app.use(express.static('node_modules/p5/lib'));
 app.use(express.static('node_modules/p5/lib/addons'));
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+var server = app.listen(3033);
+var io = require('socket.io').listen(server);
+
+io.on('connection', function (socket) {
+  console.log("new connection: " + socket.id)
+
+  socket.on('newShell', function (shellData) {
+    socket.broadcast.emit('newShell', shellData);
+  });
 });
+
+console.log('listening on port 3033');

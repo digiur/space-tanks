@@ -19,6 +19,9 @@ let trailLife;
 let explodeSize;
 let explodeLife;
 let aimPos;
+let gameWidth;
+let gameHeight;
+let socket;
 
 let planets = [];
 let shells = [];
@@ -26,15 +29,11 @@ let trails = [];
 
 function setup() {
 
-  // On the eighth day the gods created the canvas
-  createCanvas(windowWidth, windowHeight);
-  noStroke();
-
-  // Replace this with DOM sliders
+  // Replace this with DOM sliders?
   G = 20;
-  planetMin = 40;
-  planetMax = 100;
-  planetCount = 10;
+  planetMin = 75;
+  planetMax = 75;
+  planetCount = 3;
   planetBuffer = 40;
   shellSize = 5;
   shellVelRatio = 0.02;
@@ -42,29 +41,45 @@ function setup() {
   shellAccHintSize = 150;
   trailLife = 500;
   explodeSize = 40;
-  explodeLife = 250;
+  explodeLife = 500;
   aimPos = createVector(0, 0);
+  gameWidth = 500;//windowWidth;
+  gameHeight = 500;//windowHeight;
+
+  // On the eighth day the gods created the canvas
+  createCanvas(gameWidth, gameHeight);
+  noStroke();
+  colorMode(HSB, 100);
 
   // Generate planets
-  do {
-    let p = new Planet(planetMax, planetMax, windowWidth - planetMax, windowHeight - planetMax, planetMin, planetMax);
-    let save = true;
+  planets.push( new Planet(250, 150, 100));
+  planets.push( new Planet(125, 225, 60));
+  planets.push( new Planet(400, 300, 80));
+  // do {
+  //   let p = new Planet(planetMax, planetMax, gameWidth - planetMax, gameHeight - planetMax, planetMin, planetMax);
+  //   let save = true;
 
-    // Only save the new planet if it is sutably far from existing planets
-    for (let i = 0; i < planets.length; i++)
-      if (p5.Vector.sub(p.pos, planets[i].pos).mag() < planets[i].size + p.size + planetBuffer)
-        save = false;
-    if (save)
-      planets.push(p);
+  //   // Only save the new planet if it is sutably far from existing planets
+  //   for (let i = 0; i < planets.length; i++)
+  //     if (p5.Vector.sub(p.pos, planets[i].pos).mag() < planets[i].size + p.size + planetBuffer)
+  //       save = false;
+  //   if (save)
+  //     planets.push(p);
 
-  } while (planets.length < planetCount)
+  // } while (planets.length < planetCount)
+
+  // Connect to server
+  socket = io.connect('http://localhost:3033');
+  socket.on('newShell', function (trailData) {
+    shells.push(new Shell(trailData.ax, trailData.ay, trailData.vx, trailData.vy, trailData.s));
+  })
 }
 
 function update() {
 
   // Update shells and trails and add new trails
   for (let i = 0; i < shells.length; i++) {
-    trails.push(new Trail(shells[i].pos.x, shells[i].pos.y, shellSize, trailLife, color("White")));
+    newTrail(shells[i].pos.x, shells[i].pos.y, shellSize, trailLife);
     shells[i].update(planets);
   }
   for (let i = 0; i < trails.length; i++)
@@ -74,7 +89,7 @@ function update() {
   let i = 0;
   while (i < shells.length) {
     if (shells[i].dead) {
-      trails.push(new Trail(shells[i].pos.x, shells[i].pos.y, explodeSize, explodeLife, color("Red")));
+      newTrail(shells[i].pos.x, shells[i].pos.y, explodeSize, explodeLife);
       shells.splice(i, 1);
       continue;
     }
@@ -104,7 +119,7 @@ function draw() {
   for (i = 0; i < trails.length; i++)
     trails[i].draw();
   if (mouseIsPressed) {
-    stroke(255, 255, 255);
+    stroke("White");
     line(aimPos.x, aimPos.y, mouseX, mouseY);
     noStroke();
   }
@@ -134,8 +149,31 @@ function inputStart() {
 function inputMove() {
   let pos = createVector(mouseX, mouseY)
   let vel = p5.Vector.mult(p5.Vector.sub(aimPos, pos), shellVelRatio);
-  shells.push(new Shell(aimPos.x, aimPos.y, vel.x, vel.y, shellSize));
+  newShell(aimPos.x, aimPos.y, vel.x, vel.y, shellSize);
   return false;
 }
 
-function reset() {}
+function newTrail(posX, posY, mySize, myLife) {
+  trails.push(new Trail(posX, posY, mySize, myLife));
+  // var data = {
+  //   x: posX,
+  //   y: posY,
+  //   size: mySize,
+  //   life: myLife
+  // }
+  // socket.emit('newTrail', data);
+}
+
+function newShell(posX, posY, velX, velY, size){
+  shells.push(new Shell(posX, posY, velX, velY, size));
+  var shellData = {
+    ax: posX,
+    ay: posY,
+    vx: velX,
+    vy: velY,
+    s: size,
+  }
+  socket.emit('newShell', shellData);
+}
+
+function reset() { }
