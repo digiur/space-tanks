@@ -43,8 +43,9 @@ function setup() {
   explodeSize = 40;
   explodeLife = 500;
   aimPos = createVector(0, 0);
-  gameWidth = 500;//windowWidth;
-  gameHeight = 500;//windowHeight;
+  gameWidth = 1000;//windowWidth;
+  gameHeight = 1000;//windowHeight;
+  
 
   // On the eighth day the gods created the canvas
   createCanvas(gameWidth, gameHeight);
@@ -55,6 +56,9 @@ function setup() {
   planets.push( new Planet(250, 150, 100));
   planets.push( new Planet(125, 225, 60));
   planets.push( new Planet(400, 300, 80));
+  planets.push( new Planet(600, 700, 40));
+  planets.push( new Planet(700, 600, 40));
+  planets.push( new Planet(500, 500, 120));
   // do {
   //   let p = new Planet(planetMax, planetMax, gameWidth - planetMax, gameHeight - planetMax, planetMin, planetMax);
   //   let save = true;
