@@ -56,6 +56,7 @@ function setup() {
 
   // On the eighth day the gods created the canvas
   createCanvas(gameWidth, gameHeight);
+  strokeWeight(2);
   noStroke();
   colorMode(HSB, 100);
 
@@ -153,7 +154,6 @@ function draw() {
   for (i = 0; i < trails.length; i++)
     trails[i].draw();
   if (mouseIsPressed) {
-    strokeWeight(5);
     let v = createVector(aimPos.x - mouseX, aimPos.y - mouseY)
     for (let i = 0; i < 100; i++) {
       let c = color(i, 100, 50);
@@ -161,7 +161,6 @@ function draw() {
       let dv = p5.Vector.mult(v, i / 100.0);
       point(mouseX + dv.x, mouseY + dv.y)
     }
-    strokeWeight(1);
     noStroke();
   }
 }
