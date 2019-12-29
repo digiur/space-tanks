@@ -134,19 +134,19 @@ function draw() {
 }
 
 function touchStarted() {
-  inputStart()
+  return inputStart()
 }
 
 function mousePressed() {
-  inputStart()
+  return inputStart()
 }
 
 function touchMoved() {
-  inputMove()
+  return inputMove()
 }
 
 function mouseDragged() {
-  inputMove()
+  return inputMove()
 }
 
 function inputStart() {
