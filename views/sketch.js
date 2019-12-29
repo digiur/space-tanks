@@ -152,11 +152,11 @@ function draw() {
     shells[i].draw();
   for (i = 0; i < trails.length; i++)
     trails[i].draw();
-  if (mouseIsPressed) {
-    stroke("White");
-    line(aimPos.x, aimPos.y, mouseX, mouseY);
-    noStroke();
-  }
+  // if (mouseIsPressed) {
+  //   stroke("White");
+  //   line(aimPos.x, aimPos.y, mouseX, mouseY);
+  //   noStroke();
+  // }
 }
 
 function touchStarted() {
