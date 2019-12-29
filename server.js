@@ -11,7 +11,7 @@ app.use(express.static('node_modules/p5/lib'));
 app.use(express.static('node_modules/p5/lib/addons'));
 
 // listen for requests :)
-var server = app.listen(3033);
+var server = app.listen(process.env.PORT);
 var io = require('socket.io').listen(server);
 
 io.on('connection', function (socket) {
@@ -22,4 +22,4 @@ io.on('connection', function (socket) {
   });
 });
 
-console.log('listening on port 3033');
+console.log('listening...');

@@ -69,7 +69,11 @@ function setup() {
   // } while (planets.length < planetCount)
 
   // Connect to server
-  socket = io.connect('http://localhost:3033');
+  //if(process.env.PORT)
+    socket = io.connect('http://localhost:' + process.env.PORT);
+  //else
+    //socket = io.connect('http://localhost:3033');
+
   socket.on('newShell', function (trailData) {
     shells.push(new Shell(trailData.ax, trailData.ay, trailData.vx, trailData.vy, trailData.s));
   })
