@@ -153,7 +153,7 @@ function draw() {
   for (i = 0; i < trails.length; i++)
     trails[i].draw();
   if (mouseIsPressed) {
-    strokeWeight(1);
+    strokeWeight(3);
     let v = createVector(aimPos.x - mouseX, aimPos.y - mouseY)
     for (let i = 0; i < 100; i++) {
       let c = color(i, 100, 50);
