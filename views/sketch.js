@@ -161,7 +161,7 @@ function draw() {
       let dv = p5.Vector.mult(v, i / 100.0);
       point(mouseX + dv.x, mouseY + dv.y)
     }
-    strokeWeight(3);
+    strokeWeight(1);
     noStroke();
   }
 }
