@@ -154,13 +154,12 @@ function draw() {
     trails[i].draw();
   if (mouseIsPressed) {
     strokeWeight(1);
-    let v = createVector(aimPos.x - mouseX, aimPos.y-mouseY)
-    for(let i = 0; i < 100; i++)
-    {
+    let v = createVector(aimPos.x - mouseX, aimPos.y - mouseY)
+    for (let i = 0; i < 100; i++) {
       let c = color(i, 100, 50);
       stroke(c);
-      let dv = p5.Vector.mult(i/100.0);
-      point(mouseX+dv.x,mouseY.dv.y)
+      let dv = p5.Vector.mult(v, i / 100.0);
+      point(mouseX + dv.x, mouseY.dv.y)
     }
     noStroke();
   }
