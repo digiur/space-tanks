@@ -159,7 +159,7 @@ function draw() {
       let c = color(i, 100, 50);
       stroke(c);
       let dv = p5.Vector.mult(v, i / 100.0);
-      point(mouseX + dv.x, mouseY.dv.y)
+      point(mouseX + dv.x, mouseY + dv.y)
     }
     noStroke();
   }
