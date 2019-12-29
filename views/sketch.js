@@ -81,15 +81,15 @@ function setup() {
 
   // Connect to server
 
-  socket = io.connect('https://space-tanks.herokuapp.com/');
-  //socket = io.connect('http://localhost:3033');
+  //socket = io.connect('https://space-tanks.herokuapp.com/');
+  socket = io.connect('http://localhost:3033');
 
   socket.on('newShell', function (shellData) {
     shells.push(new Shell(shellData.px, shellData.py, shellData.vx, shellData.vy, shellData.s));
   })
 
   socket.on('playerPosUpdate', function (playerPosData) {
-    trails.push(new Trail(playerPosData.px, playerPosData.py, playerSize, playerLife));
+    newTrail(playerPosData.px, playerPosData.py, playerSize, playerLife);
   })
 }
 
@@ -124,7 +124,7 @@ function update() {
   }
 
   // Marco!
-  if ((timeSinceRevealed += deltaTime) > revealedTime){
+  if ((timeSinceRevealed += deltaTime) > revealedTime) {
     timeSinceRevealed = 0.0;
     var playerPosData = {
       px: mouseX,
@@ -139,6 +139,10 @@ function draw() {
 
   // Why no game loop?
   update();
+
+  // Polo!
+  if (timeSinceRevealed == 0.0)
+    newTrail(mouseX, mouseY, playerSize, playerLife);
 
   // The background and planets and shells and trails and 'UI' oh my!
   background(0);
