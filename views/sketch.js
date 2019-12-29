@@ -81,8 +81,8 @@ function setup() {
 
   // Connect to server
 
-  //socket = io.connect('https://space-tanks.herokuapp.com/');
-  socket = io.connect('http://localhost:3033');
+  socket = io.connect('https://space-tanks.herokuapp.com/');
+  //socket = io.connect('http://localhost:3033');
 
   socket.on('newShell', function (shellData) {
     shells.push(new Shell(shellData.px, shellData.py, shellData.vx, shellData.vy, shellData.s));
