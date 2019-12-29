@@ -11,7 +11,7 @@ app.use(express.static('node_modules/p5/lib'));
 app.use(express.static('node_modules/p5/lib/addons'));
 
 // listen for requests :)
-var server = app.listen(process.env.PORT);
+var server = app.listen(process.env.PORT || 3033);
 var io = require('socket.io').listen(server);
 
 io.on('connection', function (socket) {
@@ -19,6 +19,9 @@ io.on('connection', function (socket) {
 
   socket.on('newShell', function (shellData) {
     socket.broadcast.emit('newShell', shellData);
+  });
+  socket.on('playerPosUpdate', function (playerPosData) {
+    socket.broadcast.emit('playerPosUpdate', playerPosData);
   });
 });
 
