@@ -70,7 +70,7 @@ function setup() {
 
   // Connect to server
   //if(process.env.PORT)
-    socket = io.connect('http://localhost:' + process.env.PORT);
+    socket = io.connect('https://space-tanks.herokuapp.com/');
   //else
     //socket = io.connect('http://localhost:3033');
 
