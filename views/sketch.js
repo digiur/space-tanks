@@ -38,8 +38,8 @@ function setup() {
   G = 20;
   planetMin = 40;
   planetMax = 200;
-  planetCount = 200;
-  planetBuffer = 40;
+  planetCount = 100;
+  planetBuffer = 80;
   shellSize = 5;
   shellVelRatio = 0.02;
   shellVelHintSize = 6;
