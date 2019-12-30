@@ -143,13 +143,13 @@ function update() {
   }
 
   if (keyIsDown(87))//w
-    camY -= 10;
+    camY -= 30;
   if (keyIsDown(65))//a
-    camX -= 10;
+    camX -= 30;
   if (keyIsDown(83))//s
-    camY += 10;
+    camY += 30;
   if (keyIsDown(68))//d
-    camX += 10;
+    camX += 30;
 
 }
 
