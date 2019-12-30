@@ -26,6 +26,7 @@ let playerLife;
 let playerSize;
 let camX;
 let camY;
+let camZ;
 
 let planets = [];
 let shells = [];
@@ -53,6 +54,7 @@ function setup() {
   playerLife = 2000;
   camX = 0;
   camY = 0;
+  camZ = 1;
 
   // On the eighth day the gods created the canvas
   createCanvas(windowWidth, windowHeight);
@@ -150,7 +152,14 @@ function update() {
     camY += 30;
   if (keyIsDown(68))//d
     camX += 30;
-
+  if (keyIsDown(107)) {//+
+    console.log('minus')
+    camZ /= 1.01;
+  }
+  if (keyIsDown(109)) {//-
+    console.log('plus')
+    camZ *= 1.01;
+  }
 }
 
 function draw() {
@@ -217,19 +226,23 @@ function newShell(posX, posY, velX, velY, size) {
 }
 
 function camTX(x) {
-  return x - camX + windowWidth / 2;
+  return (x - camX + windowWidth / 2) / camZ;
 }
 
 function camTY(y) {
-  return y - camY + windowHeight / 2;
+  return (y - camY + windowHeight / 2) / camZ;
 }
 
 function camMX(x) {
-  return camX + x - windowWidth / 2;
+  return camX + x * camZ - windowWidth / 2;
 }
 
 function camMY(y) {
-  return camY + y - windowHeight / 2;
+  return camY + y * camZ - windowHeight / 2;
+}
+
+function camSZ(s) {
+  return s / camZ;
 }
 
 function reset() { }

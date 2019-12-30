@@ -9,6 +9,6 @@ class Planet {
 
   draw() {
     fill(this.color);
-    circle(camTX(this.pos.x), camTY(this.pos.y), this.size);
+    circle(camTX(this.pos.x), camTY(this.pos.y), camSZ(this.size));
   }
 }

@@ -66,14 +66,14 @@ class Shell {
 
     // Draw body
     fill("White");
-    circle(camTX(drawX), camTY(drawY), this.size);
+    circle(camTX(drawX), camTY(drawY), camSZ(this.size));
 
     // Draw hint lines
     stroke("Red");
-    line(camTX(drawX), camTY(drawY), camTX(drawX) + this.acc.x * shellAccHintSize, camTY(drawY) + this.acc.y * shellAccHintSize);
+    line(camTX(drawX), camTY(drawY), camTX(drawX) + this.acc.x * camSZ(shellAccHintSize), camTY(drawY) + this.acc.y * camSZ(shellAccHintSize));
 
     stroke("Blue");
-    line(camTX(drawX), camTY(drawY), camTX(drawX) + this.vel.x * shellVelHintSize, camTY(drawY) + this.vel.y * shellVelHintSize);
+    line(camTX(drawX), camTY(drawY), camTX(drawX) + this.vel.x * camSZ(shellVelHintSize), camTY(drawY) + this.vel.y * camSZ(shellVelHintSize));
 
     noStroke();
   }
