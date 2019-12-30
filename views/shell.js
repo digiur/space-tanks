@@ -66,7 +66,7 @@ class Shell {
 
     // Draw body
     fill("White");
-    circle(camTX(drawX), camTY(drawY), this.size);
+    circle(camTX(drawX), camTY(drawY), camSZ(this.size));
 
     // Draw hint lines
     stroke("Red");
