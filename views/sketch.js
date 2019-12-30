@@ -19,13 +19,13 @@ let trailLife;
 let explodeSize;
 let explodeLife;
 let aimPos;
-let gameWidth;
-let gameHeight;
 let socket;
 let revealedTime;
 let timeSinceRevealed;
 let playerLife;
 let playerSize;
+let camX;
+let camY;
 
 let planets = [];
 let shells = [];
@@ -35,9 +35,9 @@ function setup() {
 
   // Replace this with DOM sliders?
   G = 20;
-  planetMin = 75;
-  planetMax = 75;
-  planetCount = 3;
+  planetMin = 40;
+  planetMax = 200;
+  planetCount = 200;
   planetBuffer = 40;
   shellSize = 5;
   shellVelRatio = 0.02;
@@ -47,43 +47,48 @@ function setup() {
   explodeSize = 40;
   explodeLife = 500;
   aimPos = createVector(0, 0);
-  gameWidth = 1000;//windowWidth;
-  gameHeight = 1000;//windowHeight;
   revealedTime = 100;
   timeSinceRevealed = 0;
   playerSize = 5;
   playerLife = 2000;
+  camX = 0;
+  camY = 0;
 
   // On the eighth day the gods created the canvas
-  createCanvas(gameWidth, gameHeight);
+  createCanvas(windowWidth, windowHeight);
   strokeWeight(2);
   noStroke();
   colorMode(HSB, 100);
 
   // Generate planets
-  planets.push(new Planet(250, 150, 100));
-  planets.push(new Planet(125, 225, 60));
-  planets.push(new Planet(400, 300, 80));
-  planets.push(new Planet(600, 700, 40));
-  planets.push(new Planet(700, 600, 40));
-  planets.push(new Planet(500, 500, 120));
-  // do {
-  //   let p = new Planet(planetMax, planetMax, gameWidth - planetMax, gameHeight - planetMax, planetMin, planetMax);
-  //   let save = true;
+  randomSeed(420);
+  let packingWidth = windowWidth / 2;
+  let packingHeight = windowHeight / 2;
+  do {
+    let p = new Planet(
+      random(-packingWidth, packingWidth),
+      random(-packingHeight, packingHeight),
+      random(planetMin, planetMax)
+    );
 
-  //   // Only save the new planet if it is sutably far from existing planets
-  //   for (let i = 0; i < planets.length; i++)
-  //     if (p5.Vector.sub(p.pos, planets[i].pos).mag() < planets[i].size + p.size + planetBuffer)
-  //       save = false;
-  //   if (save)
-  //     planets.push(p);
+    // Only save the new planet if it is sutably far from existing planets
+    let save = true;
+    for (let i = 0; i < planets.length; i++) {
+      if (p5.Vector.sub(p.pos, planets[i].pos).mag() < planets[i].size + p.size + planetBuffer) {
+        save = false;
+        packingWidth += 1;
+        packingHeight += 1;
+      }
+    }
 
-  // } while (planets.length < planetCount)
+    if (save)
+      planets.push(p);
+
+  } while (planets.length < planetCount)
 
   // Connect to server
-
-  socket = io.connect('https://space-tanks.herokuapp.com/');
-  //socket = io.connect('http://localhost:3033');
+  //socket = io.connect('https://space-tanks.herokuapp.com/');
+  socket = io.connect('http://localhost:3033');
 
   socket.on('newShell', function (shellData) {
     shells.push(new Shell(shellData.px, shellData.py, shellData.vx, shellData.vy, shellData.s));
@@ -92,6 +97,7 @@ function setup() {
   socket.on('playerPosUpdate', function (playerPosData) {
     newTrail(playerPosData.px, playerPosData.py, playerSize, playerLife);
   })
+
 }
 
 function update() {
@@ -127,12 +133,23 @@ function update() {
   // Marco!
   if ((timeSinceRevealed += deltaTime) > revealedTime) {
     timeSinceRevealed = 0.0;
+    var x = camMX(mouseX);
+    var y = camMY(mouseY);
     var playerPosData = {
-      px: mouseX,
-      py: mouseY,
+      px: x,
+      py: y
     }
     socket.emit('playerPosUpdate', playerPosData);
   }
+
+  if (keyIsDown(87))//w
+    camY -= 10;
+  if (keyIsDown(65))//a
+    camX -= 10;
+  if (keyIsDown(83))//s
+    camY += 10;
+  if (keyIsDown(68))//d
+    camX += 10;
 
 }
 
@@ -143,7 +160,7 @@ function draw() {
 
   // Polo!
   if (timeSinceRevealed == 0.0)
-    newTrail(mouseX, mouseY, playerSize, playerLife);
+    newTrail(camMX(mouseX), camMY(mouseY), playerSize, playerLife);
 
   // The background and planets and shells and trails and 'UI' oh my!
   background(0);
@@ -153,16 +170,6 @@ function draw() {
     shells[i].draw();
   for (i = 0; i < trails.length; i++)
     trails[i].draw();
-  if (mouseIsPressed) {
-    let v = createVector(aimPos.x - mouseX, aimPos.y - mouseY)
-    for (let i = 0; i < 100; i++) {
-      let c = color(i, 100, 50);
-      stroke(c);
-      let dv = p5.Vector.mult(v, i / 100.0);
-      point(mouseX + dv.x, mouseY + dv.y)
-    }
-    noStroke();
-  }
 }
 
 function touchStarted() {
@@ -182,12 +189,12 @@ function mouseDragged() {
 }
 
 function inputStart() {
-  aimPos.set(mouseX, mouseY);
+  aimPos.set(camMX(mouseX), camMY(mouseY));
   return false;
 }
 
 function inputMove() {
-  let pos = createVector(mouseX, mouseY)
+  let pos = createVector(camMX(mouseX), camMY(mouseY));
   let vel = p5.Vector.mult(p5.Vector.sub(aimPos, pos), shellVelRatio);
   newShell(aimPos.x, aimPos.y, vel.x, vel.y, shellSize);
   return false;
@@ -195,13 +202,6 @@ function inputMove() {
 
 function newTrail(posX, posY, mySize, myLife) {
   trails.push(new Trail(posX, posY, mySize, myLife));
-  // var data = {
-  //   x: posX,
-  //   y: posY,
-  //   size: mySize,
-  //   life: myLife
-  // }
-  // socket.emit('newTrail', data);
 }
 
 function newShell(posX, posY, velX, velY, size) {
@@ -211,9 +211,25 @@ function newShell(posX, posY, velX, velY, size) {
     py: posY,
     vx: velX,
     vy: velY,
-    s: size,
+    s: size
   }
   socket.emit('newShell', shellData);
+}
+
+function camTX(x) {
+  return x - camX + windowWidth / 2;
+}
+
+function camTY(y) {
+  return y - camY + windowHeight / 2;
+}
+
+function camMX(x) {
+  return camX + x - windowWidth / 2;
+}
+
+function camMY(y) {
+  return camY + y - windowHeight / 2;
 }
 
 function reset() { }

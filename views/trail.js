@@ -21,6 +21,6 @@ class Trail {
 
   draw() {
     fill(this.color);
-    circle(this.pos.x, this.pos.y, this.size);
+    circle(camTX(this.pos.x), camTY(this.pos.y), this.size);
   }
 }

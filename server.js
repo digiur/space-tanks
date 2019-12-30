@@ -1,11 +1,7 @@
-// server.js
-// where your node app starts
-
-// init project
+// init libs
 var express = require('express');
 var app = express();
 
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('views'));
 app.use(express.static('node_modules/p5/lib'));
 app.use(express.static('node_modules/p5/lib/addons'));
@@ -14,12 +10,15 @@ app.use(express.static('node_modules/p5/lib/addons'));
 var server = app.listen(process.env.PORT || 3033);
 var io = require('socket.io').listen(server);
 
+// Is this an object? WTF javascript?
 io.on('connection', function (socket) {
+
   console.log("new connection: " + socket.id)
 
   socket.on('newShell', function (shellData) {
     socket.broadcast.emit('newShell', shellData);
   });
+
   socket.on('playerPosUpdate', function (playerPosData) {
     socket.broadcast.emit('playerPosUpdate', playerPosData);
   });

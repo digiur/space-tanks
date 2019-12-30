@@ -7,12 +7,8 @@ class Planet {
     this.color = color(random(0, 100), random(50, 100), random(25, 75));
   }
 
-  update() {
-    //nothing yet
-  }
-
   draw() {
     fill(this.color);
-    circle(this.pos.x, this.pos.y, this.size);
+    circle(camTX(this.pos.x), camTY(this.pos.y), this.size);
   }
 }

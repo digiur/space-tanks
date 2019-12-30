@@ -59,31 +59,21 @@ class Shell {
 
   draw() {
 
-    // Display the shell on the edge of the screen if offscreen
+    // This is an artifact
+    //drawX and drawY can be removed
     let drawX = this.pos.x;
     let drawY = this.pos.y;
 
-    // Todo: Constrain instead
-    if (drawX < 1)
-      drawX = 1;
-    else if (drawX > gameWidth-1)
-      drawX = gameWidth-1;
-
-    if (drawY < 1)
-      drawY = 1;
-    else if (drawY > gameHeight-1)
-      drawY = gameHeight-1;
-
     // Draw body
     fill("White");
-    circle(drawX, drawY, this.size);
+    circle(camTX(drawX), camTY(drawY), this.size);
 
     // Draw hint lines
     stroke("Red");
-    line(drawX, drawY, drawX + this.acc.x * shellAccHintSize, drawY + this.acc.y * shellAccHintSize);
+    line(camTX(drawX), camTY(drawY), camTX(drawX) + this.acc.x * shellAccHintSize, camTY(drawY) + this.acc.y * shellAccHintSize);
 
     stroke("Blue");
-    line(drawX, drawY, drawX + this.vel.x * shellVelHintSize, drawY + this.vel.y * shellVelHintSize);
+    line(camTX(drawX), camTY(drawY), camTX(drawX) + this.vel.x * shellVelHintSize, camTY(drawY) + this.vel.y * shellVelHintSize);
 
     noStroke();
   }
