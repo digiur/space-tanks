@@ -17,6 +17,7 @@ io.on('connection', function (socket) {
 
   socket.on('newShell', function (shellData) {
     socket.broadcast.emit('newShell', shellData);
+    console.log("Shell broadcast");
   });
 
   socket.on('playerPosUpdate', function (playerPosData) {
