@@ -38,7 +38,7 @@ function setup() {
   G = 20;
   planetMin = 40;
   planetMax = 200;
-  planetCount = 100;
+  planetCount = 25;
   planetBuffer = 80;
   shellSize = 5;
   shellVelRatio = 0.02;
