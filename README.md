@@ -1,5 +1,5 @@
 # space-tanks
-Space Tanks!
+SPACE TANKS!
 
 server.js only broadcasts new game object messeges. The entire simulation is done client side.
 
