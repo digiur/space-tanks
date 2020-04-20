@@ -152,12 +152,10 @@ function update() {
     camY += 30;
   if (keyIsDown(68))//d
     camX += 30;
-  if (keyIsDown(107)) {//+
-    console.log('minus')
+  if (keyIsDown(DOWN_ARROW)) {//down
     camZ /= 1.01;
   }
-  if (keyIsDown(109)) {//-
-    console.log('plus')
+  if (keyIsDown(UP_ARROW)) {//up
     camZ *= 1.01;
   }
 }
