@@ -2,6 +2,8 @@
 var express = require('express');
 var app = express();
 
+app.use(express.static('views'));
+
 // listen for requests :)
 var server = app.listen(process.env.PORT || 3033);
 var io = require('socket.io').listen(server);
